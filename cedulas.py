@@ -1,4 +1,5 @@
 import openpyxl
+from copy import copy # <--- NUEVO: Para poder copiar formatos
 
 # 1. Cargar el documento
 archivo = "LEGO OPERACIONES AGO 26.xlsx"
@@ -49,10 +50,22 @@ for persona in bloques_info:
     if es_requerido:
         for fila_origen in persona["filas"]:
             for col in range(1, ws_info.max_column + 1):
-                valor_origen = ws_info.cell(row=fila_origen, column=col).value
-                ws_destino.cell(row=fila_destino, column=col).value = valor_origen
+                celda_origen = ws_info.cell(row=fila_origen, column=col)
+                celda_destino = ws_destino.cell(row=fila_destino, column=col)
+                
+                # 1. Copiar el valor
+                celda_destino.value = celda_origen.value
+                
+                # 2. Copiar el formato (Estilos)
+                if celda_origen.has_style:
+                    celda_destino.font = copy(celda_origen.font)
+                    celda_destino.border = copy(celda_origen.border)
+                    celda_destino.fill = copy(celda_origen.fill)
+                    celda_destino.number_format = celda_origen.number_format
+                    celda_destino.protection = copy(celda_origen.protection)
+                    celda_destino.alignment = copy(celda_origen.alignment)
+                    
             fila_destino += 1
-        fila_destino += 1 # Espacio de separación
 
 # 5. --- COMPROBACIÓN DE ELEMENTOS FALTANTES ---
 
