@@ -58,3 +58,24 @@ for persona in bloques_info:
 # Guardar el resultado en un nuevo archivo
 wb.save("LEGO_OPERACIONES_ACTUALIZADO.xlsx")
 print("Extracción y copiado completado con éxito.")
+
+# --- ELEMENTOS FALTANTES ---
+
+# Nombres que originalmente queríamos buscar (unidos de nuevo en texto)
+lista_original = [" ".join(req) for req in nombres_requeridos]
+
+# Nombres que SÍ lograron ser encontrados y copiados
+nombres_encontrados = []
+for persona in bloques_info:
+    for req in nombres_requeridos:
+        if all(palabra in persona["nombre"] for palabra in req):
+            nombres_encontrados.append(" ".join(req))
+            break # Si ya lo encontró, pasa a la siguiente persona
+
+# Comparar y ver cuáles faltan
+faltantes = set(lista_original) - set(nombres_encontrados)
+
+print(f"\nSe encontraron {len(nombres_encontrados)} elementos.")
+print(f"Faltan {len(faltantes)} elementos. Los nombres que no hicieron match son:")
+for nombre in faltantes:
+    print("-", nombre)
