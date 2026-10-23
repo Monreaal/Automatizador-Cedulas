@@ -2,7 +2,7 @@ import openpyxl
 from copy import copy # <--- NUEVO: Para poder copiar formatos
 
 # 1. Cargar el documento
-archivo = "LEGO OPERACIONES AGO 26.xlsx"
+archivo = "LEGO OPERACIONES SEP 26.xlsx"
 wb = openpyxl.load_workbook(archivo)
 ws_lista = wb["Lista Elementos"]
 ws_info = wb["Elementos Info"]
